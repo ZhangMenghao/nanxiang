@@ -1,4 +1,4 @@
-# 面向院系的学生工作信息系统
+#面向院系的学生工作信息系统
 
 本项目旨在开发一套适合院系层面学生工作的信息系统，帮助提高学生工作的科学化、正规化、信息化水平。
 
@@ -17,4 +17,8 @@ https://docs.mongodb.com/master/tutorial/install-mongodb-on-ubuntu/?_ga=1.177667
 pip install pymongo
 ```
 
-之后可以使用python mongodb_test.py测试mangodb安装情况
+之后可以使用
+```
+python mongodb_test.py
+```
+测试mangodb安装情况
