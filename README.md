@@ -13,12 +13,14 @@ pyvenv env
 source env/bin/activate
 pip install -U pip
 pip install -r requirements.txt
-https://docs.mongodb.com/master/tutorial/install-mongodb-on-ubuntu/?_ga=1.17766713.1858727941.1479198606 
+```
+安装mangodb参考https://docs.mongodb.com/master/tutorial/install-mongodb-on-ubuntu/?_ga=1.17766713.1858727941.1479198606 
+
+安装MongoDB的Python驱动
+```
 pip install pymongo
 ```
-
-之后可以使用
+之后可以使用测试mangodb安装情况
 ```
 python mongodb_test.py
 ```
-测试mangodb安装情况
