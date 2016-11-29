@@ -17,7 +17,7 @@ pip install -r requirements.txt
 
 测试开发
 ```
+cd nanxiang
 python manage.py runserver 0.0.0.0:8000
 ```
-
 
