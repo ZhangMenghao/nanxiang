@@ -17,7 +17,7 @@ pip install -r requirements.txt
 
 安装mangodb参考https://docs.mongodb.com/master/tutorial/install-mongodb-on-ubuntu/?_ga=1.17766713.1858727941.1479198606 
 
-为了便于网站管理momgodb数据库，我们选择安装rockmongo，教程参考http://www.mike.org.cn/articles/ubuntu-install-mongodb/，页面管理页面在serverip/rockmongo，账户名和密码都是admin
+为了便于网站管理momgodb数据库，我们选择安装rockmongo，教程参考http://www.mike.org.cn/articles/ubuntu-install-mongodb/ ，页面管理页面在serverip/rockmongo，账户名和密码都是admin
 
 安装MongoDB的Python驱动
 ```
