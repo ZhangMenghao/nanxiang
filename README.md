@@ -20,6 +20,7 @@ pip install -r requirements.txt
 安装MongoDB的Python驱动
 ```
 pip install pymongo
+pip install mongoengine
 ```
 
 之后可以使用测试mangodb安装情况
