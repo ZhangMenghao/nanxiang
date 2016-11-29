@@ -13,7 +13,7 @@ def input_record_form(request):
 
 def input_record(request):
 	names = request.GET['names']
-	entry = Talk_record(name= names)  
+	entry = Talk_record(name= names)
 	entry.student_id = request.GET['student_id']
 	entry.record = request.GET['record']
 	entry.next_advice = request.GET['next_advice']
