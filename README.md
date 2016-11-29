@@ -19,9 +19,9 @@ pip install -r requirements.txt
 
 为了便于网站管理momgodb数据库，我们选择安装rockmongo，页面管理页面在serverip/rockmongo，账户名和密码都是admin
 ```
-apt-get install apache2
-apt-get install apache2 php5 php5-dev php5-cli php-pear
+apt-get install apache2 php5 php5-dev php5-cli php-pear php5-mongo
 cp -r rockmongo /var/www/html/
+service apache2 restart
 ```
 
 安装MongoDB的Python驱动
@@ -46,8 +46,5 @@ vim setting.py
 ```
 cd ..
 python manage.py runserver 0.0.0.0:8000
-<<<<<<< HEAD
 ```
-=======
-```
->>>>>>> ac3635f964110e7e4c69a2800cc1d1b419d6d6db
+
