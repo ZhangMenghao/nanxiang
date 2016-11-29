@@ -1,13 +1,13 @@
 from __future__ import unicode_literals
 
-#from django.db import models
+from django.db import models
 
 # Create your models here.
-from mongoengine import *  
-connect('test')  
-  
-class Talk_record(Document):  
-    name = StringField(max_length=100)  
-    student_id = StringField(max_length=100)
-    record = StringField(max_length=100)
-    next_advice = StringField(max_length=100)
+class Talk_record(models.Model):  
+    name = models.CharField(max_length=100)  
+    student_id = models.CharField(max_length=100)
+    record = models.CharField(max_length=100)
+    next_advice = models.CharField(max_length=100)
+
+    def __str__(self) :
+        return self.title
