@@ -39,4 +39,8 @@ vim setting.py
 ```
 cd ..
 python manage.py runserver 0.0.0.0:8000
+<<<<<<< HEAD
 ```
+=======
+```
+>>>>>>> ac3635f964110e7e4c69a2800cc1d1b419d6d6db
