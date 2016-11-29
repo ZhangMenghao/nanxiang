@@ -4,7 +4,7 @@
 
 ## 如何设置开发环境
 
-本系统使用 Python 2.7 开发，开发环境的设置步骤如下：
+本系统使用 Python 2.7 django 1.11开发，开发环境的设置步骤如下：
 
 ```
 git clone git@bitbucket.org:info-system-thucst/nanxiang.git
@@ -14,6 +14,8 @@ source env/bin/activate
 pip install -U pip
 pip install -r requirements.txt
 ```
+
+django开发入门https://andrew-liu.gitbooks.io/django-blog/content/index.html
 
 测试开发
 ```
