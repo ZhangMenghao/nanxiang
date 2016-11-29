@@ -18,7 +18,7 @@ from django.contrib import admin
 from category import views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    #url(r'^admin/', admin.site.urls),
     url(r'^$', views.input_record_form),
     url(r'^input_record/', views.input_record),
 ]
