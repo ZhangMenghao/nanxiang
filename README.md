@@ -4,7 +4,7 @@
 
 ## 如何设置开发环境
 
-本系统使用 Python 3 开发，开发环境的设置步骤如下：
+本系统使用 Python 2.7 开发，开发环境的设置步骤如下：
 
 ```
 git clone git@bitbucket.org:info-system-thucst/nanxiang.git
@@ -25,5 +25,18 @@ pip install mongoengine
 
 之后可以使用测试mangodb安装情况
 ```
+cd nanxiang
 python mongodb_test.py
+```
+修改服务器配置
+```
+cd nanxiang
+vim setting.py
+```
+添加ALLOWED_HOSTS为服务器ip，注释DATABASE相关
+
+测试开发
+```
+cd ..
+python manage.py runserver 0.0.0.0:8000
 ```
