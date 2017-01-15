@@ -17,6 +17,6 @@ django开发入门https://andrew-liu.gitbooks.io/django-blog/content/index.html
 测试开发
 ```
 cd nanxiang
-python manage.py runserver 0.0.0.0:8000
+./run.sh
 ```
 
