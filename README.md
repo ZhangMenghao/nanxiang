@@ -11,7 +11,7 @@ git clone git@bitbucket.org:info-system-thucst/nanxiang.git
 cd nanxiang
 运行安装脚本文件install.sh即可
 sudo ./install.sh
-
+```
 django开发入门https://andrew-liu.gitbooks.io/django-blog/content/index.html
 
 测试开发
