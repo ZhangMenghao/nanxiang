@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+
+		<meta charset="utf-8">
+		<title>Welcome!</title>
+		<link rel="stylesheet" href="assets/css/supersized.css">
+		<link href="assets/dist/css/bootstrap.min.css" rel="stylesheet">
+	    	<script src="assets/js/jquery-1.8.2.min.js" ></script>
+        <script src="assets/js/config.js" ></script>
+	</head>
+
+
+	<body>
+
+	<div class="jumbotron" style="background-color:transparent">
+		<div class="container" id=page-container>
+			<h1>Welcome!</h1>
+	 		<p>This is a high performance high availability message delivery platform,
+				here you can send messages you want to the user.</p>
+	  		<p><p>What I can do?</p><button type="button" class="btn btn-primary" id="sn">创建谈话记录</button>
+			<button type="button" class="btn btn-primary" id="manage_prj">查看我的谈话记录</button></p>
+		</div>
+	</div>
+
+	</body>
+         <div class="header"></div>
+        <div class="footer"></div>
+
+        <!--动态导入页头页脚-->
+        <script>$(document).ready(function () {
+            $(".header").load("header.html");
+        });
+        </script>
+
+        <script>$(document).ready(function () {
+            $(".footer").load("footer.html");
+        });
+        </script>
+        <!-- Javascript -->
+		<script src="assets/js/supersized.3.2.7.min.js" ></script>
+		<script src="assets/js/supersized-init.js" ></script>
+        <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+	   	<script src="assets/dist/js/bootstrap.min.js"></script>
+		<!-- import backbone.js -->
+		  <script src="assets/js/underscore.js"></script>
+		  <script src="assets/js/backbone-min.js"></script>
+		<!-- backbone.js view-->
+		<script src="assets/js/User_Model.js"></script>
+		<script src="assets/js/middle.js"></script>
+    </body>
+	<div style="text-align:center;">
+	</div>
+</html>
+             

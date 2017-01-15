@@ -1,0 +1,302 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:height="http://www.w3.org/1999/xhtml">
+<head>
+
+    <meta charset="utf-8">
+    <title>创建记录</title>
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/supersized.css">
+    <link rel="stylesheet" href="assets/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/mdbootstrap/css/mdb.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/newstyle.css">
+    <script src="assets/js/jquery-1.8.2.min.js"></script>
+</head>
+
+<body>
+
+<div class="header"></div>
+
+
+<main>
+    <!--Main layout-->
+    <div class="container" id="create_talk" style="margin-top: 100px">
+        <div id="talk_table">
+        </div>
+        <div class="row" id="button_group">
+            <button type="button" class="message_btn" id="create_btn"/>
+            确认创建</button>
+        </div>
+    </div>
+    <!--/.Main layout-->
+</main>
+
+<script type="text/template" id="talk-record-template">
+                      <div class="container-fluid">
+
+                    <div class="navbar-header">
+                        <h1 class="page-header" id="list_header">创建谈话记录</h1>
+                    </div>
+
+
+                </div>
+        <table class="table table-hover" id="table1" style="background-color:#ffffff">
+            <thead id="table_header">
+
+            </thead>
+            <tbody id="table_body">
+
+            <tr>
+            <td>基本信息</td>
+            </tr>
+            <tr>
+                <td colspan="1">姓名</td>
+                <td colspan="1">
+                    <div>
+                                <textarea  type="text" id="student_name"
+                                          style="height:50px"><%- student_name%></textarea>
+                    </div>
+                </td>
+                <td colspan="1">性别</td>
+                <td colspan="1">
+                    <div class="md-form">
+                                <textarea  type="text" id="student_sex"
+                                          style="height:50px"><%- student_sex%></textarea>
+                    </div>
+                </td>
+                <td colspan="1">班级</td>
+                <td colspan="1">
+                    <div class="md-form">
+                                <textarea type="text" id="student_class"
+                                          style="height:50px"><%- student_class%></textarea>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>学号</td>
+                <td>
+                    <div class="md-form">
+                                <textarea  type="text" id="student_id"
+                                          style="height:50px"><%- student_id%></textarea>
+                    </div>
+                </td>
+                <td>政治面貌</td>
+                <td>
+                    <div class="md-form">
+                                <textarea type="text" id="student_policy_role"
+                                          style="height:50px"><%- student_policy_role%></textarea>
+                    </div>
+                </td>
+                <td>民族</td>
+                <td>
+                    <div class="md-form">
+                                <textarea type="text" id="student_nation"
+                                          style="height:50px"><%- student_nation%></textarea>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>谈话人</td>
+                <td>
+                    <div class="md-form">
+                                <textarea  type="text" id="teacher_name"
+                                          style="height:50px"><%- teacher_name%></textarea>
+                    </div>
+                </td>
+                <td>谈话时间</td>
+                <td>
+                    <div class="md-form">
+                                <textarea  type="datetime" id="talk_time"
+                                          style="height:50px"><%- talk_time%></textarea>
+                    </div>
+                </td>
+                <td>谈话地点</td>
+                <td>
+                    <div class="md-form">
+                                <textarea  type="text" id="talk_place"
+                                          style="height:50px"><%- talk_place%></textarea>
+                    </div>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td>联系方式</td>
+            </tr>
+            <tr>
+                <td colspan="1">校内住址</td>
+                <td colspan="2">
+                    <div class="md-form">
+                                    <textarea  type="text" id="student_dorm_address"
+                                              style="height:50px"><%- student_dorm_address%></textarea>
+                    </div>
+                </td>
+
+                <td colspan="1">手机</td>
+                <td colspan="2">
+                    <div class="md-form">
+                                    <textarea  type="text" id="student_phonenumber"
+                                              style="height:50px"><%- student_phonenumber%></textarea>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1">宿舍电话</td>
+                <td colspan="2">
+                    <div class="md-form">
+                                    <textarea  type="text" id="student_dorm_phonenumber"
+                                              style="height:50px"><%- student_dorm_phonenumber%></textarea>
+                    </div>
+                </td>
+                <td colspan="1">E-mail</td>
+                <td colspan="2">
+                    <div class="md-form">
+                                    <textarea type="text" id="student_email"
+                                              style="height:50px"><%- student_email%></textarea>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1">家庭住址</td>
+                <td colspan="2">
+                    <div class="md-form">
+                                    <textarea type="text" id="student_home_address"
+                                              style="height:50px"><%- student_home_address%></textarea>
+                    </div>
+                </td>
+                <td colspan="1">家庭电话</td>
+                <td colspan="2">
+                    <div class="md-form">
+                                    <textarea  type="text" id="student_home_phonenumber"
+                                              style="height:50px"><%- student_home_phonenumber%></textarea>
+                    </div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>学生状况</td>
+            </tr>
+            <tr>
+                <td colspan="1">家庭状况</td>
+                <td colspan="10">
+                    <div class="md-form">
+                                    <textarea  type="text" id="student_home_situation"
+                                              style="height:150px"><%- student_home_situation%></textarea>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1">学习状况</td>
+                <td colspan="10">
+                    <div class="md-form">
+                                    <textarea  type="text" id="student_study_situation"
+                                              style="height:150px"><%- student_study_situation%></textarea>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1">思想状况</td>
+                <td colspan="10">
+                    <div class="md-form">
+                                    <textarea  type="text" id="student_thought_situation"
+                                              style="height:150px"><%- student_thought_situation%></textarea>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1">生活状况</td>
+                <td colspan="10">
+                    <div class="md-form">
+                                    <textarea  type="text" id="student_live_situation"
+                                              style="height:150px"><%- student_live_situation%></textarea>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="1">社工状况</td>
+                <td colspan="10">
+                    <div class="md-form">
+                                    <textarea type="text" id="student_society_situation"
+                                              style="height:150px"><%- student_society_situation%></textarea>
+                    </div>
+                </td>
+            </tr>
+
+
+
+            <tr>
+                <td>谈话信息</td>
+            </tr>
+            <tr>
+                <td colspan="1">谈话记录</td>
+                <td colspan="10">
+                    <div class="md-form">
+                                    <textarea  type="text" id="content"
+                                              style="height:250px"><%- content%></textarea>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1">后续工作建议</td>
+                <td colspan="10">
+                    <div class="md-form">
+                                    <textarea  type="text" id="recommend"
+                                              style="height:100px"><%- recommend%></textarea>
+                    </div>
+                </td>
+            </tr>
+
+
+            </tbody>
+        </table>
+</script>
+
+<div class="footer"></div>
+
+<!--动态导入页头页脚-->
+<script>$(document).ready(function () {
+    $(".header").load("header.html");
+});
+</script>
+
+<script>$(document).ready(function () {
+    $(".footer").load("footer.html");
+});
+</script>
+<!-- 组选模板 -->
+<script type="text/template" id="group-item-template">
+    <option class="group_selector" value=<%-name %>> <%-
+        name%>
+    </option>
+</script>
+
+<script src="assets/js/supersized.3.2.7.min.js"></script>
+<script src="assets/js/supersized-init.js"></script>
+<script src="assets/js/js.js"></script>
+<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="assets/mdbootstrap/js/tether.min.js"></script>
+<script src="assets/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="assets/mdbootstrap/js/mdb.min.js"></script>
+<!-- import backbone.js -->
+<script src="assets/js/underscore.js"></script>
+<script src="assets/js/backbone-min.js"></script>
+<!-- backbone.js view-->
+<script src="assets/js/config.js"></script>
+<script src="assets/js/User_Model.js"></script>
+<script src="assets/js/Message_Model.js"></script>
+<script src="assets/js/Group_Model.js"></script>
+<script src="assets/js/navigation.js"></script>
+<script src="assets/js/createtalk.js"></script>
+
+</body>
+</html>
+
+
+

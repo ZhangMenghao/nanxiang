@@ -1,0 +1,69 @@
+﻿<html>
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+    <head>
+
+        <meta charset="utf-8">
+        <title>登录(Login)</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="assets/css/reset.css">
+        <link rel="stylesheet" href="assets/css/supersized.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+        <link href="assets/dist/css/bootstrap.min.css" rel="stylesheet">
+        <!-- 引入jquery -->
+        <script src="assets/js/jquery-1.8.2.min.js" ></script>
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+            <script src="assets/js/html5.js"></script>
+        <![endif]-->
+    </head>
+    <script src="assets/js/jquery-1.8.2.min.js" ></script>
+    <body>
+
+        <div class="header"></div>
+
+        <div class="page-container">
+            <h1>登录(Login)</h1>
+                <input type="text" name="username" class="username" id="un0" placeholder="请输入您的用户名！">
+                <input type="password" name="password" class="password" id="pw0" placeholder="请输入您的用户密码！">
+                <button type="button" class="submit_button" id="login">登录</button>
+                <button type="button" class="submit_button" id="register">注册</button>
+                <div class="error"><span>+</span></div>
+            <div class="connect">
+            </div>
+        </div>
+
+        <div class="footer"></div>
+
+
+        <!--动态导入页头页脚-->
+        <script>$(document).ready(function () {
+            $(".header").load("login_header.html");
+        });
+        </script>
+
+        <script>$(document).ready(function () {
+            $(".footer").load("footer.html");
+        });
+        </script>
+
+
+        <script src="assets/js/supersized.3.2.7.min.js" ></script>
+        <script src="assets/js/supersized-init.js" ></script>
+        <!-- import backbone.js -->
+    <script src="assets/js/config.js" ></script>
+        <script src="assets/js/underscore.js"></script>
+        <script src="assets/js/backbone-min.js"></script>
+        <!-- backbone.js view-->
+        <script src="assets/js/User_Model.js"></script>
+        <script src="assets/js/index.js"></script>
+    </body>
+<div style="text-align:center;">
+</div>
+</html>
+
