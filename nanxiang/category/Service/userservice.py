@@ -76,6 +76,17 @@ class DBService:
             return user
 
     @staticmethod
+    def get_user_by_uid(uid):
+        user = None
+        try:
+            user = CustomUser.objects.get(id=uid)
+        except Exception, e:
+            print '[X]error when get user by id=', uid, ' ', e
+            user = None
+        finally:
+            return user
+
+    @staticmethod
     def insert_talk_record(data):
         status = SUCCESS
         try:
@@ -215,6 +226,52 @@ class DBService:
     @staticmethod
     def user_is_teacher(user):
         return user.priviledge > 0
+
+    @staticmethod
+    def get_all_student_info_in_json_mark_by_gid(gid):
+        student_list = Student.objects.all()
+        json_list = list()
+        for student in student_list:
+            student_info = dict()
+            student_info['id_number'] = student.username
+            student_info['real_name'] = student.username
+            student_info['uid'] = student.id
+            student_info['in_group'] = False
+            json_list.append(student_info)
+
+        return json.dumps(json_list)
+
+    @staticmethod
+    def get_all_teacher_info_in_json_mark_by_gid(gid):
+        teacher_list = Teacher.objects.all()
+        json_list = list()
+        for teacher in teacher_list:
+            teacher_info = dict()
+            teacher_info['id_number'] = teacher.username
+            teacher_info['real_name'] = teacher.username
+            teacher_info['uid'] = teacher.id
+            teacher_info['in_group'] = False
+            json_list.append(teacher_info)
+
+        return json.dumps(json_list)
+
+    @staticmethod
+    def get_all_member_info_in_json_in_gid(gid):
+        teacher_list = Teacher.objects.all()
+        json_list = list()
+        for teacher in teacher_list:
+            teacher_info = dict()
+            teacher_info['id_number'] = teacher.username
+            teacher_info['real_name'] = teacher.username
+            teacher_info['uid'] = teacher.id
+            teacher_info['in_group'] = False
+            json_list.append(teacher_info)
+
+        return json.dumps(json_list)
+
+    @staticmethod
+    def user_is_admin(user):
+        return user.priviledge >= 2
 
     @staticmethod
     def get_talk_record_by_id(rid):

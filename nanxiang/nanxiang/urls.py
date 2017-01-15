@@ -27,7 +27,9 @@ urlpatterns = [
     url(r'^createrecord/$', create_talk_record),
     url(r'^fetchallrecord/$', get_talk_record_list),
     url(r'^updaterecord/$', update_talk_record),
-    url(r'^getrecord/$', get_talk_record)
+    url(r'^getrecord/$', get_talk_record),
+    url(r'^fetchuser/$', fetch_user),
+    url(r'^managegroup/$', manage_group)
 ]
 #direct to index folder
 urlpatterns += static(settings.INDEX_URL, document_root=settings.INDEX_DIR)

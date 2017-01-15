@@ -173,3 +173,65 @@ def get_talk_record(request):
         response.setErrorStatus(e)
     finally:
         return response.getJsonHttpResponse()
+
+
+def fetch_user(request):
+    """
+    获取用户信息
+    """
+    response = Response()
+    #检查是否登录
+    if not request.user.is_authenticated():
+        response.setErrorStatus(NEVER_LOGINED)
+        return response.getJsonHttpResponse()
+    #检查是否是admin权限
+    user = DBService.get_user_by_uid(request.user.id)
+    if not DBService.user_is_admin(user):
+        response.setErrorStatus(REJECTED)
+        return response.getJsonHttpResponse()
+
+    mode = int(request.GET['mode'])
+    gid = int(request.GET['gid'])
+    try:
+        user_list = None
+        if mode == 0:
+            #获取所有学生
+            user_list = DBService.get_all_student_info_in_json_mark_by_gid(gid)
+
+        elif mode == 1:
+            #获取所有老师
+            user_list = DBService.get_all_teacher_info_in_json_mark_by_gid(gid)
+
+        elif mode == 2:
+            #获取组内所有人
+            user_list = DBService.get_all_member_info_in_json_in_gid(gid)
+
+        response.setData(key='user_list', data=user_list)
+        response.setSuccessStatus(SUCCESS)
+    except Exception, e:
+        print '[X]update talk record fail: ', e
+        response.setErrorStatus(e)
+    finally:
+        return response.getJsonHttpResponse()
+
+def manage_group(request):
+    """
+    获得谈话记录
+    """
+    response = Response()
+    rid = request.GET['rid']
+    if not request.user.is_authenticated():
+        response.setErrorStatus(NEVER_LOGINED)
+        return response.getJsonHttpResponse()
+
+    try:
+        record = DBService.get_talk_record_by_id(rid=rid)
+        record_list = list()
+        record_list.append(record.toJSON())
+        response.setData(key='record_list', data=json.dumps(record_list))
+        response.setSuccessStatus(SUCCESS)
+    except Exception, e:
+        print '[X]update talk record fail: ', e
+        response.setErrorStatus(e)
+    finally:
+        return response.getJsonHttpResponse()

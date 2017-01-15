@@ -11,7 +11,11 @@ var User = Backbone.Model.extend({
                  */
                 username: "",
                 password:"",
-                priviledge:2
+                priviledge:2,
+                real_name:"",
+                id_number:"",
+                uid:"",
+                in_group:false
             };
         },
         validate: function (attrs, options) {
@@ -86,14 +90,14 @@ var User = Backbone.Model.extend({
 
 var Userlist = Backbone.Collection.extend({
     model: User,
-    url:rootURL + "export/",
+    url:rootURL,
     parse: function (response) {
         var json = eval('(' + response.users_list + ')');
 
         return json;
     },
-    fetchAllUserList:function() {
-        this.url = rootURL + "export/?os_type=all&channel=all" ;
+    fetchAllStudent: function (gid) {
+        this.url = rootURL + "fetchuser/?mode=0&gid=" + gid;
         this.fetch({
             success: function (collection, resp) {
                 //console.dir(collection);
@@ -103,11 +107,22 @@ var Userlist = Backbone.Collection.extend({
             }
         });
     },
-    fetchTargetUser:function(os_type,channel) {
-        this.url = rootURL + "export/?os_type=" +os_type + "&channel=" + channel;
+    fetchAllTeacher: function (gid) {
+        this.url = rootURL + "fetchuser/?mode=1&gid=" + gid;
         this.fetch({
             success: function (collection, resp) {
-                console.dir(collection);
+                //console.dir(collection);
+            },
+            error: function () {
+                alert('error');
+            }
+        });
+    },
+    fetchAllTeacherAndStudentInGroup: function (gid) {
+        this.url = rootURL + "fetchuser/?mode=2&gid=" + gid;
+        this.fetch({
+            success: function (collection, resp) {
+                //console.dir(collection);
             },
             error: function () {
                 alert('error');
