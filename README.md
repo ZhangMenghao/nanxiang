@@ -9,11 +9,8 @@
 ```
 git clone git@bitbucket.org:info-system-thucst/nanxiang.git
 cd nanxiang
-pyvenv env
-source env/bin/activate
-pip install -U pip
-pip install -r requirements.txt
-```
+运行安装脚本文件install.sh即可
+sudo ./install.sh
 
 django开发入门https://andrew-liu.gitbooks.io/django-blog/content/index.html
 
