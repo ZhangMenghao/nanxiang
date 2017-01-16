@@ -5,10 +5,24 @@ var Group = Backbone.Model.extend({
         // Default attributes for the user item.
         defaults: function () {
             return {
-                id: "-1",
-                name:"请选择组"
+                gid: "",
+                gname:""
             };
         },
+        saveGroup: function () {
+            this.urlRoot = rootURL + "creategroup/";
+            this.save(null, {
+                success: function (data) {
+                    if (data.get('status') == SUCCESS) {
+                        alert('创建成功！');
+                    }
+                    else {
+                        alert(data.get('message'));
+                    }
+                    window.location.href = "group.html";
+                }
+            })
+        }
     });
 
 var GroupList = Backbone.Collection.extend({

@@ -187,11 +187,13 @@ def fetch_user(request):
     #检查是否是admin权限
     user = DBService.get_user_by_uid(request.user.id)
     if not DBService.user_is_admin(user):
+        print '[priviledfe]',user.priviledge
         response.setErrorStatus(REJECTED)
         return response.getJsonHttpResponse()
 
     mode = int(request.GET['mode'])
     gid = int(request.GET['gid'])
+    print "gid:",gid
     try:
         user_list = None
         if mode == 0:
@@ -206,7 +208,7 @@ def fetch_user(request):
             #获取组内所有人
             user_list = DBService.get_all_member_info_in_json_in_gid(gid)
 
-        response.setData(key='user_list', data=user_list)
+        response.setData(key='users_list', data=user_list)
         response.setSuccessStatus(SUCCESS)
     except Exception, e:
         print '[X]update talk record fail: ', e
@@ -214,24 +216,104 @@ def fetch_user(request):
     finally:
         return response.getJsonHttpResponse()
 
+
 def manage_group(request):
     """
-    获得谈话记录
+    修改组
     """
     response = Response()
-    rid = request.GET['rid']
+    #检查是否登录
     if not request.user.is_authenticated():
         response.setErrorStatus(NEVER_LOGINED)
         return response.getJsonHttpResponse()
+    #检查是否是admin权限
+    user = DBService.get_user_by_uid(request.user.id)
+    if not DBService.user_is_admin(user):
+        print '[priviledfe]',user.priviledge
+        response.setErrorStatus(REJECTED)
+        return response.getJsonHttpResponse()
 
+    uid = int(request.GET['uid'])
+    gid = int(request.GET['gid'])
+    action = request.GET['action']
     try:
-        record = DBService.get_talk_record_by_id(rid=rid)
-        record_list = list()
-        record_list.append(record.toJSON())
-        response.setData(key='record_list', data=json.dumps(record_list))
+        print "[X]manage:", uid
+        user = DBService.get_user_by_uid(uid)
+        group = GroupService.get_group_by_gid(gid=gid)
+
+        info = dict()
+        info['id_number'] = user.username
+        info['real_name'] = user.username
+        info['uid'] = user.id
+        info['in_group'] = False
+        if action == 'add':
+            GroupService.add_user_to_group(user, group)
+            info['in_group'] = True
+        elif action == 'leave':
+            GroupService.remove_user_of_group(user,group)
+            info['in_group'] = False
+
+        response.setData(key='user', data=info)
         response.setSuccessStatus(SUCCESS)
     except Exception, e:
         print '[X]update talk record fail: ', e
         response.setErrorStatus(e)
+    finally:
+        return response.getJsonHttpResponse()
+
+
+def get_groups(request):
+    """
+    获取所有组
+    :param request:
+    :return:
+    """
+    response = Response()
+    #检查是否登录
+    if not request.user.is_authenticated():
+        response.setErrorStatus(NEVER_LOGINED)
+        return response.getJsonHttpResponse()
+    #检查是否是admin权限
+    user = DBService.get_user_by_uid(request.user.id)
+    if not DBService.user_is_admin(user):
+        print '[priviledfe]', user.priviledge
+        response.setErrorStatus(REJECTED)
+        return response.getJsonHttpResponse()
+
+    g_list = GroupService.get_all_group()
+    response.setData(key='group_list', data=json.dumps(g_list))
+    response.setSuccessStatus('fetch groups')
+    return response.getJsonHttpResponse()
+
+
+def create_group(request):
+    """
+    创建组
+    :param request:
+    :return:
+    """
+    response = Response()
+    #检查是否登录
+    if not request.user.is_authenticated():
+        response.setErrorStatus(NEVER_LOGINED)
+        return response.getJsonHttpResponse()
+    #检查是否是admin权限
+    user = DBService.get_user_by_uid(request.user.id)
+    if not DBService.user_is_admin(user):
+        print '[priviledfe]', user.priviledge
+        response.setErrorStatus(REJECTED)
+        return response.getJsonHttpResponse()
+
+    data = json.loads(request.body)
+    gname = data['gname']
+
+    try:
+        status = GroupService.create_group(gname)
+        response.setData(key='create', data=gname)
+        response.setSuccessStatus(status)
+    except Exception, e:
+        print "[X]create group error: ", e
+        status = ERROR
+        response.setErrorStatus(status)
     finally:
         return response.getJsonHttpResponse()

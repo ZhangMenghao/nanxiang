@@ -1,7 +1,7 @@
 /**
  * Created by dalaoshe on 16-10-21.
  */
-var user_list = new Userlist;
+var group_list = new GroupList;
 /*
  分页栏Tab对象
  */
@@ -17,46 +17,23 @@ var Tab = Backbone.Model.extend({
  */
 var ItemView = Backbone.View.extend({
     tagName: "tr",
-    item_template: _.template($('#user-item-template').html()),
+    item_template: _.template($('#group-item-template').html()),
     type: "",
-    id:"",
-   // model:"",
-    mode:0,
-    gid:0,
     events: {
-        "click .add_btn": "change"
+        "click .manage_group_btn": "toManage"
     },
     initialize: function () {
         this.listenTo(this.model,"change",this.render);
-
     },
     // Re-render the message item
     render: function () {
-        // alert("mode "+this.mode);
-        // alert("in_group "+this.model.get('in_group'));
-        if(this.mode == 1) {
-            //只展示在分组的项
-            if (this.model.get('in_group')) {
-                this.$el.html(this.item_template(this.model.toJSON()));
-            }
-            else{
-                window.location.href = "managegroup.html?gid="+this.gid;
-            }
-        }
-        else if(this.mode == 0) {
-            this.$el.html(this.item_template(this.model.toJSON()));
-        }
+        this.$el.html(this.item_template(this.model.toJSON()));
         return this;
     },
-    change: function () {
-        if(this.model.get('in_group')) {
-            this.model.leaveGroup(this.model.get("uid"),this.gid);
-        }
-        else {
-            this.model.addGroup(this.model.get("uid"),this.gid);
-        }
+    toManage: function () {
+        window.location.href = "managegroup.html?gid="+this.model.get('gid');
     }
-    
+
 });
 /*
  展示表
@@ -66,7 +43,7 @@ var TableView = Backbone.View.extend({
     id: 'table_container',
     className: 'table-responsive',
     tableTemplate: _.template($('#table-template').html()),
-    userTemplate: _.template($('#user-table-template').html()),
+    groupTemplate: _.template($('#group-table-template').html()),
     tabTemplate: _.template($('#table-tab-template').html()),
     events: {
         "click .tab_index": "change"
@@ -76,7 +53,6 @@ var TableView = Backbone.View.extend({
         this.header = this.$("#table_header");
         this.body = this.$('#table_body');
         this.tab = this.$('#table_tab');
-        this.user_list = new Userlist;
         this.initHeader();
         this.bindListener();
         this.fetchData();
@@ -150,32 +126,17 @@ var TableView = Backbone.View.extend({
 /*
   用户信息表
  */
-var UserTableView = TableView.extend({
-    list: user_list,
-    mode: 0,
-    gid:0,
+var GroupTableView = TableView.extend({
+    list: group_list,
     initHeader: function () {
-        this.header.html(this.userTemplate());
+        this.header.html(this.groupTemplate());
     },
     bindListener: function () {
         this.listenTo(this.list, 'add', this.resetTable);
         this.listenTo(this.list, 'reset', this.resetTable);
     },
     fetchData: function () {
-
-    },
-    fetchAllStudent: function (gid) {
-       // this.list.clean();
-        this.list.fetchAllStudent(gid);
-    },
-    fetchAllTeacher: function (gid) {
-      //  this.list.clean();
-        this.list.fetchAllTeacher(gid);
-    },
-    fetchAllTeacherAndStudentInGroup: function (gid) {
-      //  this.list.clean();
-        this.list.fetchAllTeacherAndStudentInGroup(gid);
-
+        this.list.fetchAllGroupList();
     },
     setList: function (list) {
       //  this.list.clean();
@@ -210,10 +171,8 @@ var UserTableView = TableView.extend({
         for (i; i < this.list.length; ++i) {
 
             if (num > this.pageSize) break;
-            var user = this.list.at(i);
-            var view = new ItemView({model: user});
-            view.mode = this.mode;
-            view.gid = this.gid;
+            var group = this.list.at(i);
+            var view = new ItemView({model: group});
             this.body.append(view.render().el);
             num++;
         }
@@ -224,53 +183,27 @@ var UserTableView = TableView.extend({
 
 var GroupManageView = Backbone.View.extend({
     el: $("#main_container"),
-    gid: 0,
     events: {
-        "click #look_up_member_btn": "displayMember",
-        "click #look_up_student_btn": "displayStudent",
-        "click #look_up_teacher_btn": "displayTeacher",
-        "click .add_teacher_btn": "addTeacher",
-        "click .delete_teacher_btn": "deleteTeacher",
-        "click .add_student_btn": "addStudent",
-        "click .delete_student_btn": "deleteStudent"
-    },
-    displayMember: function () {
-        this.tab_view.setMode(1);
-
-        this.tab_view.fetchAllTeacherAndStudentInGroup(this.gid);
-    },
-    displayTeacher: function () {
-        this.tab_view.setMode(0);
-        this.tab_view.fetchAllTeacher(this.gid);
-    },
-    displayStudent: function () {
-        this.tab_view.setMode(0);
-        this.tab_view.fetchAllStudent(this.gid);
+        "click #create_group_btn": "createGroup"
     },
     initialize: function () {
         this.title = this.$("#list_header");
-        this.tab_view = new UserTableView;
-        this.gid = getParam("gid");
-        this.tab_view.setMode(1);
-        this.tab_view.setGid(this.gid);
-        this.tab_view.fetchAllTeacherAndStudentInGroup(this.gid);
+        this.tab_view = new GroupTableView;
         this.$("#list_container").append(this.tab_view.render().el);
-        this.title.html("小组信息");
+        this.title.html("小组管理");
     },
     render: function () {
 
+    },
+    createGroup: function () {
+        var group = new Group;
+        group.set({
+            gname: this.$("#gname_input").val()
+        })
+        group.saveGroup();
     }
 
 });
-
-function getParam(paramName) {
-    paramValue = "", isFound = !1;
-    if (this.location.search.indexOf("?") == 0 && this.location.search.indexOf("=") > 1) {
-        arrSource = unescape(this.location.search).substring(1, this.location.search.length).split("&"), i = 0;
-        while (i < arrSource.length && !isFound) arrSource[i].indexOf("=") > 0 && arrSource[i].split("=")[0].toLowerCase() == paramName.toLowerCase() && (paramValue = arrSource[i].split("=")[1], isFound = !0), i++
-    }
-    return paramValue == "" && (paramValue = null), paramValue
-}
 
 var mainview = new GroupManageView;
 

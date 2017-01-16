@@ -86,6 +86,40 @@ var User = Backbone.Model.extend({
                 }
             })
         },
+        leaveGroup: function (uid,gid) {
+            this.urlRoot = rootURL + "managegroup/?uid="+uid+"&gid="+gid+"&action=leave";
+            this.fetch({
+                success: function (data) {
+                    if (data.get('status') == SUCCESS) {
+                        // alert('123');
+                        // alert('删除成功！');
+                    }
+                    else {
+                        // alert(data.get('message'));
+                    }
+                }
+            })
+        },
+        addGroup: function (uid,gid) {
+            this.urlRoot = rootURL + "managegroup/?uid="+uid+"&gid="+gid+"&action=add";
+            this.fetch({
+                success: function (data) {
+                    if (data.get('status') == SUCCESS) {
+                        // alert('234');
+                        // alert('加入成功！');
+                    }
+                    else {
+
+                    }
+                }
+            })
+        },
+        parse:function (response) {
+             if(!response.user)
+                 return response;
+             if(response)
+             return response.user;
+        }
     });
 
 var Userlist = Backbone.Collection.extend({
@@ -93,7 +127,8 @@ var Userlist = Backbone.Collection.extend({
     url:rootURL,
     parse: function (response) {
         var json = eval('(' + response.users_list + ')');
-
+       // console.dir(json);
+       // alert(1);
         return json;
     },
     fetchAllStudent: function (gid) {

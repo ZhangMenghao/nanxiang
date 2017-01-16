@@ -6,6 +6,8 @@ $(function(){
     events: {
       "click #sn": "redirectToSnow",
       "click #manage_prj": "redirectToManage",
+        "click #manage_group": "redirectToManageGroup",
+        "click #manage_all_group": "redirectToManageAllGroup"
     },
     initialize: function() {
         this.model = new User();
@@ -19,6 +21,13 @@ $(function(){
 
     redirectToManage: function () {
       window.location.href="manage.html";
+    },
+
+      redirectToManageGroup: function () {
+      window.location.href="managegroup.html";
+    },
+      redirectToManageAllGroup: function () {
+      window.location.href="group.html";
     },
 
     redirectToSnow: function () {

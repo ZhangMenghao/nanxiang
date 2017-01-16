@@ -1,7 +1,9 @@
+# -*- coding: utf-8 -*-
 from ..models import *
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 import json
+from django.contrib.auth.models import Group
 
 SUCCESS = 'SUCCESS'
 DUPLICATE = 'DUPLICATE'
@@ -9,6 +11,7 @@ NO_EXIST = 'NO_EXIST'
 MISMATCH = 'MISMATCH'
 ERROR = 'ERROR'
 INVALID = 'INVALID'
+
 
 class DBService:
     @staticmethod
@@ -28,9 +31,8 @@ class DBService:
                                             password=password, priviledge=priviledge, student_name='student')
                 teachers = Teacher.objects.all()
 
-
-                for teacher in teachers:
-                    teacher.student.add(student)
+                # for teacher in teachers:
+                #     teacher.student.add(student)
 
                 print 'student'
         except Exception as e:
@@ -216,7 +218,7 @@ class DBService:
         be_teacher = False
         try:
             user = CustomUser.objects.get(id=id)
-            be_teacher = user.priviledge > 0
+            be_teacher = (user.priviledge > 0 and user.priviledge < 3)
         except Exception, e:
             print '[X]error when judge is teacher ', e
             be_teacher = False
@@ -224,19 +226,40 @@ class DBService:
             return be_teacher
 
     @staticmethod
+    def is_student(id):
+        be_student = False
+        try:
+            user = CustomUser.objects.get(id=id)
+            be_student = (user.priviledge == 0)
+        except Exception, e:
+            print '[X]error when judge is student ', e
+            be_student = False
+        finally:
+            return be_student
+
+    @staticmethod
     def user_is_teacher(user):
-        return user.priviledge > 0
+        return user.priviledge > 0 and user.priviledge < 3
+
+    @staticmethod
+    def user_is_student(user):
+        return user.priviledge == 0
 
     @staticmethod
     def get_all_student_info_in_json_mark_by_gid(gid):
         student_list = Student.objects.all()
         json_list = list()
+        group = GroupService.get_group_by_gid(gid=gid)
+        gname = group.name
         for student in student_list:
             student_info = dict()
             student_info['id_number'] = student.username
             student_info['real_name'] = student.username
             student_info['uid'] = student.id
-            student_info['in_group'] = False
+            if GroupService.is_user_in_group(student.username, gname):
+                student_info['in_group'] = True
+            else:
+                student_info['in_group'] = False
             json_list.append(student_info)
 
         return json.dumps(json_list)
@@ -245,27 +268,34 @@ class DBService:
     def get_all_teacher_info_in_json_mark_by_gid(gid):
         teacher_list = Teacher.objects.all()
         json_list = list()
+        group = GroupService.get_group_by_gid(gid=gid)
+        gname = group.name
         for teacher in teacher_list:
             teacher_info = dict()
             teacher_info['id_number'] = teacher.username
             teacher_info['real_name'] = teacher.username
             teacher_info['uid'] = teacher.id
-            teacher_info['in_group'] = False
+            if GroupService.is_user_in_group(teacher.username, gname):
+                teacher_info['in_group'] = True
+            else:
+                teacher_info['in_group'] = False
             json_list.append(teacher_info)
 
         return json.dumps(json_list)
 
     @staticmethod
     def get_all_member_info_in_json_in_gid(gid):
-        teacher_list = Teacher.objects.all()
+        user_list = CustomUser.objects.all()
         json_list = list()
-        for teacher in teacher_list:
-            teacher_info = dict()
-            teacher_info['id_number'] = teacher.username
-            teacher_info['real_name'] = teacher.username
-            teacher_info['uid'] = teacher.id
-            teacher_info['in_group'] = False
-            json_list.append(teacher_info)
+        group = GroupService.get_group_by_gid(gid=gid)
+        gname = group.name
+        for user in group.user_set.all():
+            user_info = dict()
+            user_info['id_number'] = user.username
+            user_info['real_name'] = user.username
+            user_info['uid'] = user.id
+            user_info['in_group'] = True
+            json_list.append(user_info)
 
         return json.dumps(json_list)
 
@@ -277,3 +307,210 @@ class DBService:
     def get_talk_record_by_id(rid):
         record = TalkRecord.objects.get(id=rid)
         return record
+
+
+class GroupService:
+
+    def __init__(self):
+        return
+
+    @staticmethod
+    def create_group(name):
+        status = SUCCESS
+        try:
+            group = Group(name=name)
+            group.save()
+        except Exception, e:
+            print '[X]error when create group name=',name, e
+            status = ERROR
+        finally:
+            return status
+
+    @staticmethod
+    def get_users_in_group_by_name(name):
+        user_list = []
+        try:
+            group = Group.objects.get(name=name)
+            user_list = group.user_set.all()
+        except Exception, e:
+            print '[error**get user in group] gname=', name, e
+        finally:
+            return user_list
+
+    @staticmethod
+    def get_users_in_group_by_id(id):
+        user_list = []
+        try:
+            group = Group.objects.get(id=id)
+            user_list = group.user_set.all()
+        except Exception, e:
+            print '[error**get user in group] gid=', id, e
+        finally:
+            return user_list
+
+    @staticmethod
+    def get_teachers_in_group_by_id(id):
+        t_list = list()
+        try:
+            group = Group.objects.get(id=id)
+            user_list = group.user_set.all()
+            for user in user_list:
+                if DBService.is_teacher(user.id):
+                    t_list.append(user)
+        except Exception, e:
+            print '[error**get teacher in group] gid=', id, e
+        finally:
+            return t_list
+
+    @staticmethod
+    def get_students_in_group_by_id(id):
+        t_list = list()
+        try:
+            group = Group.objects.get(id=id)
+            user_list = group.user_set.all()
+            for user in user_list:
+                if DBService.is_student(user.id):
+                    t_list.append(user)
+        except Exception, e:
+            print '[error**get student in group] gid=', id, e
+        finally:
+            return t_list
+
+    @staticmethod
+    def get_all_group():
+        g_list = list()
+        try:
+            groups = Group.objects.all()
+            for group in groups:
+                g = dict()
+                g['gid'] = group.id
+                g['gname'] = group.name
+                g_list.append(g)
+        except Exception , e:
+            print '[error**get all group] ', e
+        finally:
+            return g_list
+
+    @staticmethod
+    def is_gid_exist(gid):
+        group = None
+        exist = True
+        try:
+            group = Group.objects.get(id=gid)
+            exist = True
+        except Exception, e:
+            group = None
+            exist = False
+            print '[error**not group] ', e
+        finally:
+            return exist
+
+    @staticmethod
+    def is_gname_exist(gname):
+        group = None
+        exist = True
+        try:
+            group = Group.objects.get(id=gname)
+            exist = True
+        except Exception, e:
+            group = None
+            exist = False
+            print '[error**not group] ', e
+        finally:
+            return exist
+
+    @staticmethod
+    def get_group_by_gid(gid):
+        group = None
+        try:
+            group = Group.objects.get(id=gid)
+        except Exception, e:
+            group = None
+            print '[error**when get group] gid=', gid, e
+        finally:
+            return group
+
+    @staticmethod
+    def add_user_to_group(user, group):
+        # 组内所有老师
+        t_list = GroupService.get_teachers_in_group_by_id(group.id)
+        # 组内所有学生
+        s_list = GroupService.get_students_in_group_by_id(group.id)
+        try:
+            #添加用户入组
+            group.user_set.add(user)
+            user = DBService.get_user_by_uid(user.id)
+            if DBService.is_student(user.id):
+                # 添加的是学生
+                student = Student.objects.get(id=user.id)
+                for teacher in t_list:
+                    try:
+                        teacher = Teacher.objects.get(id=teacher.id)
+                        teacher.student.add(student)
+                    except Exception, e:
+                        print "[X]error when add student to group, add student to teacher, sid=",user.id," tid=",teacher.id, e
+            elif DBService.is_teacher(user.id):
+                teacher = Teacher.objects.get(id=user.id)
+                for student in s_list:
+                    try:
+                        student = Student.objects.get(id=student.id)
+                        teacher.student.add(student)
+                    except Exception, e:
+                        print "[X]error when add student to group, add student to teacher, sid=",student.id," tid=",user.id, e
+        except Exception, e:
+            print '[error,fail to add user to group]: ', e
+        finally:
+            return True
+
+    @staticmethod
+    def remove_user_of_group(user, group):
+        # 组内所有老师
+        t_list = GroupService.get_teachers_in_group_by_id(group.id)
+        # 组内所有学生
+        s_list = GroupService.get_students_in_group_by_id(group.id)
+        try:
+            #删除用户
+            user.groups.remove(group)
+            user = DBService.get_user_by_uid(user.id)
+            if DBService.is_student(user.id):
+                # 删除的是学生
+                student = Student.objects.get(id=user.id)
+                for teacher in t_list:
+                    try:
+                        teacher = Teacher.objects.get(id=teacher.id)
+                        teacher.student.remove(student)
+                    except Exception, e:
+                        print "[X]error when add student to group, remove student to teacher, sid=",user.id," tid=",teacher.id, e
+            elif DBService.is_teacher(user.id):
+                teacher = Teacher.objects.get(id=user.id)
+                for student in s_list:
+                    try:
+                        student = Student.objects.get(id=student.id)
+                        teacher.student.remove(student)
+                    except Exception, e:
+                        print "[X]error when add student to group, remove student to teacher, sid=",student.id," tid=",user.id, e
+        except Exception, e:
+            print '[error,fail to remove user to group]: ', e
+        finally:
+            return True
+
+    @staticmethod
+    def is_user_in_group(username, gname):
+        try:
+            group = Group.objects.get(name=gname)
+            for user in group.user_set.all():
+                if user.username == username:
+                    return True
+            return False
+        except Exception, e:
+            print '[error,fail to add] ',e
+            return False
+
+    @staticmethod
+    def get_group_by_ganme(gname):
+        try:
+            group = Group.objects.get(name=gname)
+            return group
+        except Exception, e:
+            print '[error,fail to get group] gname=', gname, e
+            return False

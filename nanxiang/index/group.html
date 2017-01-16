@@ -40,12 +40,10 @@
                 <div class="container-fluid">
 
                     <div class="navbar-header">
-                    <div>
-                    <p><button type="button" class="btn btn-primary" id="look_up_member_btn">查看小组成员</button>
-                    <button type="button" class="btn btn-primary" id="look_up_student_btn">查看所有学生</button>
-                    <button type="button" class="btn btn-primary" id="look_up_teacher_btn">查看所有老师</button>
-                    </p>
-                    </div>
+                    <div class="navbar-header">
+                        <p>
+                            <input id="gname_input" placeholder="请输入组名">
+                            <button type="button" class="btn btn-primary" id="create_group_btn">创建分组</button></p>
                         <h1 class="page-header" id="list_header">Dashboard</h1>
                     </div>
 
@@ -88,22 +86,22 @@
 
 </script>
 <!-- 用户表头模板 -->
-<script type="text/template" id="user-table-template">
+<script type="text/template" id="group-table-template">
     <tr>
-        <th>姓名</th>
+        <th>组号</th>
         <th>
-            证件号
+            组名
         </th>
         <th></th>
         <th></th>
     </tr>
 </script>
 <!-- 用户项模板 -->
-<script type="text/template" id="user-item-template">
-    <td><%- real_name %></td>
-    <td><%- id_number %></td>
+<script type="text/template" id="group-item-template">
+    <td><%- gid %></td>
+    <td><%- gname %></td>
     <td>
-    <button id="uid_<%-uid %>" uid=<%-uid %> class="add_btn"><%- in_group ? ('移除该组'): '加入该组' %></button>
+    <button id="gid_<%-gid %>" gid=<%-gid %> class="manage_group_btn">管理</button>
     </td>
 </script>
 
@@ -131,8 +129,8 @@
 <script src="assets/js/config.js"></script>
 <script src="assets/js/underscore.js"></script>
 <script src="assets/js/backbone-min.js"></script>
-<script src="assets/js/User_Model.js"></script>
-<script src="assets/js/managegroup.js"></script>
+<script src="assets/js/Group_Model.js"></script>
+<script src="assets/js/group.js"></script>
 
 
 </body>
