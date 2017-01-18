@@ -72,7 +72,7 @@ var Message = Backbone.Model.extend({
                         alert('骚年，请先登录！');
                     }
                     else {
-                        alert(data.get('status'));
+                        alert(data.get('message'));
                     }
                 }
             }

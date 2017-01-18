@@ -89,6 +89,7 @@ def get_talk_record_list(request):
     try:
         tid = request.user.id
         record_list = DBService.get_all_talk_record_of_teacher(tid=tid)
+        print "packed\n"
         record_json_list = list()
         for record in record_list:
             record_json_list.append(record.toJSON())
@@ -116,11 +117,11 @@ def create_talk_record(request):
         if not DBService.is_teacher(request.user.id):
             response.setErrorStatus(REJECTED)
         else:
-            status = DBService.insert_talk_record(data)
+            status, message = DBService.insert_talk_record(data)
             if status == SUCCESS:
                 response.setSuccessStatus(status)
             else:
-                response.setErrorStatus(status)
+                response.setErrorStatus(message)
     except Exception, e:
         print '[X]create talk record fail: ', e
         response.setErrorStatus(e)
