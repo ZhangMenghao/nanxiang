@@ -17,7 +17,7 @@ sudo apt-get install python-pip
 echo "<=======install Django by pip=====>"
 sudo pip install Django
 echo "<======install django-cors-headers to allow options request test=====>"
-pip install django-cors-headers
+sudo pip install django-cors-headers
 echo "<=======install python-dev nginx=====>"
 sudo apt-get install python-dev nginx
 echo "<=======install pip supervisor=====>"
