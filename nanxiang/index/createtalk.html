@@ -1,46 +1,39 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:height="http://www.w3.org/1999/xhtml">
-<head>
-
-    <meta charset="utf-8">
-    <title>创建记录</title>
-    <link rel="stylesheet" href="assets/css/reset.css">
-    <link rel="stylesheet" href="assets/css/supersized.css">
-    <link rel="stylesheet" href="assets/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/mdbootstrap/css/mdb.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/newstyle.css">
-    <script src="assets/js/jquery-1.8.2.min.js"></script>
-</head>
+    <head>
+        <meta charset="utf-8">
+        <title>创建记录</title>
+        <link rel="stylesheet" href="assets/css/reset.css">
+        <link rel="stylesheet" href="assets/css/supersized.css">
+        <link rel="stylesheet" href="assets/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/mdbootstrap/css/mdb.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="assets/css/newstyle.css">
+        <script src="assets/js/jquery-1.8.2.min.js"></script>
+    </head>
 
 <body>
-
 <div class="header"></div>
-
 
 <main>
     <!--Main layout-->
     <div class="container" id="create_talk" style="margin-top: 100px">
-        <div id="talk_table">
-        </div>
+        <div id="talk_table"></div>
         <div class="row" id="button_group">
-            <button type="button" class="message_btn" id="create_btn"/>
-            确认创建</button>
+            <button type="button" class="message_btn" id="create_btn"/>确认创建</button>
         </div>
     </div>
     <!--/.Main layout-->
 </main>
 
 <script type="text/template" id="talk-record-template">
-                      <div class="container-fluid">
 
-                    <div class="navbar-header">
-                        <h1 class="page-header" id="list_header">创建谈话记录</h1>
-                    </div>
+        <div class="container-fluid">
+        <div class="navbar-header">
+        <h1 class="page-header" id="list_header">创建谈话记录</h1>
+        </div>
+        </div>
 
-
-                </div>
         <table class="table table-hover" id="table1" style="background-color:#ffffff">
             <thead id="table_header">
 
@@ -52,7 +45,6 @@
             </tr>
             <tr>
                 <td colspan="1">姓名</td>
-                <td colspan="1">
                     <div>
                                 <textarea  type="text" id="student_name"
                                           style="height:50px"><%- student_name%></textarea>
@@ -121,9 +113,6 @@
                     </div>
                 </td>
             </tr>
-
-
-
 
             <tr>
                 <td>联系方式</td>
@@ -253,7 +242,6 @@
                 </td>
             </tr>
 
-
             </tbody>
         </table>
 </script>
@@ -296,6 +284,8 @@
 <script src="assets/js/createtalk.js"></script>
 
 </body>
+<div style="text-align:center;">
+</div>
 </html>
 
 
