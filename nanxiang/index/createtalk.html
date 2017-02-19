@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:height="http://www.w3.org/1999/xhtml">
+<html >
     <head>
         <meta charset="utf-8">
         <title>创建记录</title>
@@ -246,18 +246,21 @@
         </table>
 </script>
 
-<div class="footer"></div>
+    <div class="footer"></div>
 
-<!--动态导入页头页脚-->
-<script>$(document).ready(function () {
-    $(".header").load("header.html");
-});
-</script>
+    <!--动态导入页头页脚-->
+    <script>$(document).ready(function () {
+        $(".header").load("header.html");
+    });
+    </script>
 
-<script>$(document).ready(function () {
-    $(".footer").load("footer.html");
-});
-</script>
+    <script>$(document).ready(function () {
+        $(".footer").load("footer.html");
+    });
+    </script>
+
+
+
 <!-- 组选模板 -->
 <script type="text/template" id="group-item-template">
     <option class="group_selector" value=<%-name %>> <%-
@@ -274,7 +277,7 @@
 <script type="text/javascript" src="assets/mdbootstrap/js/mdb.min.js"></script>
 <!-- import backbone.js -->
 <script src="assets/js/underscore.js"></script>
-<script src="assets/js/backbone-min.js"></script>
+<script src="assets/js/backbone-min.js"></script>-->
 <!-- backbone.js view-->
 <script src="assets/js/config.js"></script>
 <script src="assets/js/User_Model.js"></script>
