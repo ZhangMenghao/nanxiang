@@ -79,18 +79,18 @@ WSGI_APPLICATION = 'nanxiang.wsgi.application'
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
 DATABASES = {
-    #'default': {
-    #    'ENGINE': 'django.db.backends.mysql',#keep
-    #    'NAME': 'Talk9',#database name
-    #    'USER': 'root',#login name
-    #    'PASSWORD': 'dalaoshe',#mysql password
-    #    'HOST':'localhost',#keep
-    #    'PORT':'3306',#keep
-    #}
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+       'ENGINE': 'django.db.backends.mysql',#keep
+       'NAME': 'Talk9',#database name
+       'USER': 'root',#login name
+       'PASSWORD': 'dalaoshe',#mysql password
+       'HOST':'localhost',#keep
+       'PORT':'3306',#keep
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
 }
 
 

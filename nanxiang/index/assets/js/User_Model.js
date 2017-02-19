@@ -54,8 +54,9 @@ var User = Backbone.Model.extend({
                 success: function (data) {
                     if (data.get('status') == SUCCESS) {
                         alert('登录成功！');
-                        if(data.get('message') == TEACHER)
-                            window.location.href = "middle.html";
+                        setCookie("username",data.get('username'));
+                        setCookie("privilege",data.get('privilege'));
+                        window.location.href = "middle.html";
                     }
                     else {
                         if (data.get('message') == HAS_LOGINED) {
@@ -77,6 +78,8 @@ var User = Backbone.Model.extend({
             this.save(null, {
                 success: function (data) {
                     if (data.get('status') == SUCCESS) {
+                        delCookie("username");
+                        delCookie("privilege");
                         alert('退出成功！');
                     }
                     else {
@@ -107,9 +110,25 @@ var User = Backbone.Model.extend({
                     if (data.get('status') == SUCCESS) {
                         // alert('234');
                         // alert('加入成功！');
+
                     }
                     else {
 
+                    }
+                }
+            })
+        },
+        fetchBasicInfo: function() {
+            this.urlRoot = rootURL + "fetchBasicInfo/"
+            this.fetch({
+                success: function (data) {
+                    if (data.get('status') == SUCCESS) {
+                        // alert('234');
+                        // alert('加入成功！');
+                        $("#info_button").html(data.get('username'));
+                    }
+                    else {
+                        $("#info_button").html(data.get(NEVER_LOGINED));
                     }
                 }
             })
@@ -165,3 +184,35 @@ var Userlist = Backbone.Collection.extend({
         });
     }
 });
+function setCookie(name,value)
+{
+var Days = 30;
+var exp = new Date();
+exp.setTime(exp.getTime() + Days*24*60*60*1000);
+document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+}
+
+function getCookie(c_name)
+{
+if (document.cookie.length>0)
+  {
+  c_start=document.cookie.indexOf(c_name + "=")
+  if (c_start!=-1)
+    {
+    c_start=c_start + c_name.length+1
+    c_end=document.cookie.indexOf(";",c_start)
+    if (c_end==-1) c_end=document.cookie.length
+    return unescape(document.cookie.substring(c_start,c_end))
+    }
+  }
+return ""
+}
+
+function delCookie(name)
+{
+var exp = new Date();
+exp.setTime(exp.getTime() - 1);
+var cval=getCookie(name);
+if(cval!=null)
+document.cookie= name + "="+cval+";expires="+exp.toGMTString();
+}

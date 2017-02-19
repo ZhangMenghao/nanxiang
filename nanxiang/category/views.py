@@ -24,10 +24,12 @@ def logout(request):
 def login(request):
     response = Response()
     data = json.loads(request.body)
+
     print '[login]data: ', data
     #拒绝重复登录
     if request.user.is_authenticated:
         response.setErrorStatus(HAS_LOGINED)
+        response.set_user_info(request.user.id)
         return response.getJsonHttpResponse()
 
     try:
@@ -35,6 +37,7 @@ def login(request):
         status = DBService.user_login(data, request)
         if status == SUCCESS:
             user = DBService.get_user_by_username(username)
+            response.set_user_info(user.id)
             if DBService.user_is_teacher(user=user):
                 response.setSuccessStatus(TEACHER)
             else:
@@ -77,6 +80,21 @@ def register(request):
         return response.getJsonHttpResponse()
 
 
+def fetch_basic_info(request):
+    """
+
+    :param
+    :return:
+    """
+    response = Response()
+    if request.user.is_authenticated():
+        response.set_user_info(request.user.id)
+        response.setSuccessStatus(HAS_LOGINED)
+    else:
+        response.setErrorStatus(NEVER_LOGINED)
+    return response.getJsonHttpResponse()
+
+
 def get_talk_record_list(request):
     """
     请求json数组格式的谈话记录列表
@@ -94,6 +112,7 @@ def get_talk_record_list(request):
         for record in record_list:
             record_json_list.append(record.toJSON())
         response.setData(key='record_list', data=json.dumps(record_json_list))
+        response.set_user_info(request.user.id)
         response.setSuccessStatus('packed!')
     except Exception, e:
         print '[X]pack talk list fail: ', e

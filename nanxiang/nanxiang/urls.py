@@ -31,7 +31,8 @@ urlpatterns = [
     url(r'^fetchuser/$', fetch_user),
     url(r'^managegroup/$', manage_group),
     url(r'^creategroup/$', create_group),
-    url(r'^getgroups/$', get_groups)
+    url(r'^getgroups/$', get_groups),
+    url(r'^fetchBasicInfo/$', fetch_basic_info)
 ]
-#direct to index folder
+# direct to index folder
 urlpatterns += static(settings.INDEX_URL, document_root=settings.INDEX_DIR)
