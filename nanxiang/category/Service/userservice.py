@@ -11,6 +11,9 @@ NO_EXIST = 'NO_EXIST'
 MISMATCH = 'MISMATCH'
 ERROR = 'ERROR'
 INVALID = 'INVALID'
+NOT_IN_GROUP = "NOT_IN_GROUP"
+NO_STUDENT = "NO_STUDENT"
+NO_YOUR_STUDENT = "NO_YOUR_STUDENT"
 
 
 class DBService:
@@ -29,12 +32,6 @@ class DBService:
             else:
                 student = Student.objects.create_user(username=username,
                                             password=password, priviledge=priviledge, student_name='student')
-                teachers = Teacher.objects.all()
-
-                # for teacher in teachers:
-                #     teacher.student.add(student)
-
-                print 'student'
         except Exception as e:
             status = DUPLICATE
             print '[X]error when register, status:', status, ' ', e
@@ -91,6 +88,7 @@ class DBService:
     @staticmethod
     def insert_talk_record(data):
         status = SUCCESS
+        message = None
         try:
             sid = 0
             try:
@@ -99,7 +97,13 @@ class DBService:
             except Exception, e:
                 print "[X]error when insert talk record no student whose id=",data['student_id'], e
                 status = ERROR
-                return status
+                message = NO_STUDENT
+                return status, message
+
+            if not DBService.is_student_and_teacher_in_group(tid=data['tid'], sid=sid):
+                status = ERROR
+                message = NO_YOUR_STUDENT
+                return status, message
 
             talk_record = TalkRecord(
                 tid=data['tid'], sid=sid,
@@ -119,12 +123,25 @@ class DBService:
                 content=data['content'],
                 recommend=data['recommend']
             )
+
             talk_record.save()
         except Exception, e:
             print "[X]error when save talkrecord ", e
             status = ERROR
         finally:
-            return status
+            return status, message
+
+    @staticmethod
+    def is_student_and_teacher_in_group(tid, sid):
+        student = Student.objects.get(id=sid)
+        teacher = Teacher.objects.get(id=tid)
+        for s_group in student.groups.all():
+            s_gid = s_group.id
+            for t_group in teacher.groups.all():
+                t_gid = t_group.id
+                if t_gid == s_gid:
+                    return True
+        return False
 
     @staticmethod
     def update_talk_record(data):
@@ -191,15 +208,15 @@ class DBService:
         except Exception, e:
             print '[X]error when get talk record of teacher ', e
             return talk_record_list
-
-        for student in teacher.student.all():
-            sid = student.id
-            try:
-                record = TalkRecord.objects.filter(tid=tid, sid=sid)
-                talk_record_list.extend(record)
-            except Exception, e:
-                print "[X]error when get record tid=", tid, " sid=", sid, ' ', e
-
+        for group in teacher.groups.all():
+            for student in group.user_set.all():
+                if DBService.is_student(student.id):
+                    try:
+                        sid = student.id
+                        record = TalkRecord.objects.filter(tid=tid, sid=sid)
+                        talk_record_list.extend(record)
+                    except Exception, e:
+                        print "[X]error when get record tid=", tid, " sid=", sid, ' ', e
         return talk_record_list
 
     @staticmethod
@@ -432,31 +449,9 @@ class GroupService:
 
     @staticmethod
     def add_user_to_group(user, group):
-        # 组内所有老师
-        t_list = GroupService.get_teachers_in_group_by_id(group.id)
-        # 组内所有学生
-        s_list = GroupService.get_students_in_group_by_id(group.id)
         try:
             #添加用户入组
             group.user_set.add(user)
-            user = DBService.get_user_by_uid(user.id)
-            if DBService.is_student(user.id):
-                # 添加的是学生
-                student = Student.objects.get(id=user.id)
-                for teacher in t_list:
-                    try:
-                        teacher = Teacher.objects.get(id=teacher.id)
-                        teacher.student.add(student)
-                    except Exception, e:
-                        print "[X]error when add student to group, add student to teacher, sid=",user.id," tid=",teacher.id, e
-            elif DBService.is_teacher(user.id):
-                teacher = Teacher.objects.get(id=user.id)
-                for student in s_list:
-                    try:
-                        student = Student.objects.get(id=student.id)
-                        teacher.student.add(student)
-                    except Exception, e:
-                        print "[X]error when add student to group, add student to teacher, sid=",student.id," tid=",user.id, e
         except Exception, e:
             print '[error,fail to add user to group]: ', e
         finally:
@@ -464,31 +459,9 @@ class GroupService:
 
     @staticmethod
     def remove_user_of_group(user, group):
-        # 组内所有老师
-        t_list = GroupService.get_teachers_in_group_by_id(group.id)
-        # 组内所有学生
-        s_list = GroupService.get_students_in_group_by_id(group.id)
         try:
             #删除用户
             user.groups.remove(group)
-            user = DBService.get_user_by_uid(user.id)
-            if DBService.is_student(user.id):
-                # 删除的是学生
-                student = Student.objects.get(id=user.id)
-                for teacher in t_list:
-                    try:
-                        teacher = Teacher.objects.get(id=teacher.id)
-                        teacher.student.remove(student)
-                    except Exception, e:
-                        print "[X]error when add student to group, remove student to teacher, sid=",user.id," tid=",teacher.id, e
-            elif DBService.is_teacher(user.id):
-                teacher = Teacher.objects.get(id=user.id)
-                for student in s_list:
-                    try:
-                        student = Student.objects.get(id=student.id)
-                        teacher.student.remove(student)
-                    except Exception, e:
-                        print "[X]error when add student to group, remove student to teacher, sid=",student.id," tid=",user.id, e
         except Exception, e:
             print '[error,fail to remove user to group]: ', e
         finally:

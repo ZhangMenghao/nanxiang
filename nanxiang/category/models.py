@@ -28,8 +28,8 @@ class Student(CustomUser):
 
 class Teacher(CustomUser):
     objects = UserManager()
-    student = models.ManyToManyField(
-        Student)
+    # student = models.ManyToManyField(
+    #     Student)
 
     class Meta:
         default_related_name = 'category_teacher'
