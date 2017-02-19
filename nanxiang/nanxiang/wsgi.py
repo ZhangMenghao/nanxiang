@@ -14,4 +14,6 @@ PROJECT_DIR = dirname(dirname(abspath(__file__)))
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "nanxiang.settings")
 
+
 application = get_wsgi_application()
+
