@@ -38,7 +38,7 @@ var ItemView = Backbone.View.extend({
 var TableView = Backbone.View.extend({
     tagName: 'div',
     id: 'table_container',
-    className: 'table-responsive',
+    className: 'container',
     tableTemplate: _.template($('#table-template').html()),
     messageTemplate: _.template($('#message-table-template').html()),
     tabTemplate: _.template($('#table-tab-template').html()),
@@ -267,6 +267,7 @@ var ManageView = Backbone.View.extend({
         this.$("#list_container").html("");
         this.render();
         document.getElementById("create_talk").style.display="inline";
+        document.getElementById("list_container").style.display="none";
         var App = new AppView;
         App.updateModel(rid);
 

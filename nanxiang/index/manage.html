@@ -1,57 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zn">
 <head>
     <meta charset="utf-8">
-
-
     <title>Manage Message</title>
-    <!-- background picture -->
-    <link rel="stylesheet" href="assets/css/supersized.css">
-    <!-- Bootstrap core CSS -->
-    <script src="assets/js/jquery-1.8.2.min.js"></script>
-    <link href="assets/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/mdbootstrap/css/mdb.min.css" rel="stylesheet">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="assets/css/dashboard.css" rel="stylesheet">
         <link rel="stylesheet" href="assets/css/reset.css">
-    <link rel="stylesheet" href="assets/css/supersized.css">
-    <link rel="stylesheet" href="assets/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/mdbootstrap/css/mdb.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/newstyle.css">
-    <style type="text/css">
-        th{
-            cursor: pointer;
-        }
-    </style>
+        <link rel="stylesheet" href="assets/css/supersized.css">
+        <link rel="stylesheet" href="assets/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/mdbootstrap/css/mdb.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="assets/css/newstyle.css">
+        <script src="assets/js/jquery-1.8.2.min.js"></script>
 </head>
 
 <body>
 <div class="header"></div>
 
-<div class="container-fluid" id="main_container" style="margin-top:200px">
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"
-             id="list_container">
-            <nav role="navigation" style="background-color:transparent">
+<div class="container" id="main_container" style="margin-top:50px">
+        <div id="list_container" style="margin-top:0px">
                 <div class="container-fluid">
-
                     <div class="navbar-header">
                         <h1 class="page-header" id="list_header">Dashboard</h1>
                     </div>
-
-
                 </div>
-            </nav>
 
         </div>
 
-        <div class="container" id="create_talk" style="margin-top: 100px">
+        <div class="container" id="create_talk" style="margin-top:200px">
+            
             <div id="talk_table">
             </div>
-                    <div class="row" id="button_group">
-            <button type="button" class="message_btn" id="modify_btn"/>
-            保存</button>
+
+            <div class="row" id="button_group">
+            <button type="button" class="message_btn" id="modify_btn"/>保存</button>
             </div>
+          
         </div>
 
 </div>
@@ -85,6 +67,7 @@
     </div>
 
 </script>
+
 <!-- 推送表头模板 -->
 <script type="text/template" id="message-table-template">
     <tr>
@@ -96,6 +79,7 @@
         <th></th>
     </tr>
 </script>
+
 <!-- 推送项模板 -->
 <script type="text/template" id="message-item-template">
     <td><%- student_name %></td>
@@ -105,14 +89,13 @@
     </td>
 </script>
 
-
-
 <!-- 分页模板 -->
 <script type="text/template" id="table-tab-template">
     <li><a class="tab_index" id=<%-id %>> <%-
         id%></a></li>
 </script>
 
+<!-- table template -->
 <script type="text/template" id="talk-record-template">
         <table class="table table-hover" id="table1" style="background-color:#ffffff">
             <thead id="table_header">
@@ -329,6 +312,13 @@
 
             </tbody>
         </table>
+        <p style="color:#ffffff">说明：
+        （1）家庭状况：包括籍贯、家庭经济状况、家庭关系、家庭变故等；
+        （2）学习状况：包括历年学习成绩、学籍变动等；
+        （3）思想状况：包括历年思想测评情况、参加党团活动情况、人际关系等；
+        （4）生活状况：包括电脑使用情况、住宿情况、经济活动、感情经历等
+        （5）本表格填写后复印两份，保存在系学生工作办公室，原稿由谈话人保存，至离岗时交至学生组长处。
+        </p>
 </script>
 <!-- Bootstrap core JavaScript
 ================================================== -->
@@ -338,9 +328,7 @@
 <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
 <script src="assets/dist/js/bootstrap.min.js"></script>
 <script src="assets/js/sort.js"></script>
-
 <script src="assets/js/sort.js"></script>
-
 <!-- import backbone.js -->
 <script src="assets/js/config.js"></script>
 <script src="assets/js/underscore.js"></script>
