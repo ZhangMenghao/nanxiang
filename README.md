@@ -9,14 +9,18 @@
 ```
 git clone git@bitbucket.org:info-system-thucst/nanxiang.git
 cd nanxiang
-运行安装脚本文件install.sh即可
-sudo ./install.sh
+./install.sh
 ```
+
 django开发入门https://andrew-liu.gitbooks.io/django-blog/content/index.html
 
 测试开发
 ```
 cd nanxiang
-./run.sh
+python manage.py runserver 0.0.0.0:8000
 ```
+网站首页http://本机ip:8000/index.html
+## 迁移注意事项
+将nanxiang/index/assets/js/config.js里面rootURL的ip地址换成开发电脑本机ip
+将nanxiang/nanxiang/settings.py里面ALLOWED_HOSTS的ip地址换成开发电脑本机ip地址
 
