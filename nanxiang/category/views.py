@@ -365,7 +365,7 @@ def delete_group(request):
         response.setData(key='delete', data=gid)
         response.setSuccessStatus(status)
     except Exception, e:
-        print "[X]create group error: ", e
+        print "[X]delete group error: ", e
         status = ERROR
         response.setErrorStatus(status)
     finally:

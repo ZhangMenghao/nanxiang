@@ -29,7 +29,7 @@ var Group = Backbone.Model.extend({
             this.save(null, {
                 success: function (data) {
                     if (data.get('status') == SUCCESS) {
-                        alert('shanchu成功！');
+                        alert('删除成功！');
                     }
                     else {
                         alert(data.get('message'));

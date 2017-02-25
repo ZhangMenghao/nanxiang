@@ -350,7 +350,7 @@ class GroupService:
             group = Group(id=gid)
             group.delete()
         except Exception, e:
-            print '[X]error when create group name=',name, e
+            print '[X]error when delete group name=',name, e
             status = ERROR
         finally:
             return status
