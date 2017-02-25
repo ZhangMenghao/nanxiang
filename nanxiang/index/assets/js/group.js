@@ -20,7 +20,8 @@ var ItemView = Backbone.View.extend({
     item_template: _.template($('#group-item-template').html()),
     type: "",
     events: {
-        "click .manage_group_btn": "toManage"
+        "click .manage_group_btn": "toManage",
+        "click .delete_group_btn": "deleteGroup"
     },
     initialize: function () {
         this.listenTo(this.model,"change",this.render);
@@ -32,7 +33,20 @@ var ItemView = Backbone.View.extend({
     },
     toManage: function () {
         window.location.href = "managegroup.html?gid="+this.model.get('gid');
+    },
+    deleteGroup: function (e) {
+        //alert(123);
+        var gid = e.target.id;
+        //alert(gid);
+        var group = new Group;
+        group.set({
+            gid: gid
+        });
+        group.deleteGroup();
+
+        //window.location.href = "managegroup.html?gid="+this.model.get('gid');
     }
+
 
 });
 /*

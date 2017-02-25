@@ -22,6 +22,21 @@ var Group = Backbone.Model.extend({
                     window.location.href = "group.html";
                 }
             })
+        },
+        deleteGroup: function () {
+            alert(22);
+            this.urlRoot = rootURL + "deletegroup/";
+            this.save(null, {
+                success: function (data) {
+                    if (data.get('status') == SUCCESS) {
+                        alert('shanchu成功！');
+                    }
+                    else {
+                        alert(data.get('message'));
+                    }
+                    window.location.href = "group.html";
+                }
+            })
         }
     });
 

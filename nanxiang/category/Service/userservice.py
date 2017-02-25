@@ -344,6 +344,18 @@ class GroupService:
             return status
 
     @staticmethod
+    def delete_group(gid):
+        status = SUCCESS
+        try:
+            group = Group(id=gid)
+            group.delete()
+        except Exception, e:
+            print '[X]error when create group name=',name, e
+            status = ERROR
+        finally:
+            return status
+
+    @staticmethod
     def get_users_in_group_by_name(name):
         user_list = []
         try:

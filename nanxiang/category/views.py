@@ -337,3 +337,36 @@ def create_group(request):
         response.setErrorStatus(status)
     finally:
         return response.getJsonHttpResponse()
+
+
+def delete_group(request):
+    """
+    创建组
+    :param request:
+    :return:
+    """
+    response = Response()
+    #检查是否登录
+    if not request.user.is_authenticated():
+        response.setErrorStatus(NEVER_LOGINED)
+        return response.getJsonHttpResponse()
+    #检查是否是admin权限
+    user = DBService.get_user_by_uid(request.user.id)
+    if not DBService.user_is_admin(user):
+        print '[priviledfe]', user.priviledge
+        response.setErrorStatus(REJECTED)
+        return response.getJsonHttpResponse()
+
+    data = json.loads(request.body)
+    gid = data['gid']
+
+    try:
+        status = GroupService.delete_group(gid=gid)
+        response.setData(key='delete', data=gid)
+        response.setSuccessStatus(status)
+    except Exception, e:
+        print "[X]create group error: ", e
+        status = ERROR
+        response.setErrorStatus(status)
+    finally:
+        return response.getJsonHttpResponse()
